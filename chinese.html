@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chinese New Year Hongbao</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Comic Sans MS', cursive;
+    text-align: center;
+    background: radial-gradient(circle at top, #ff3c3c, #8b0000);
+    overflow-x: hidden;
+    color: gold;
+}
+
+h1 {
+    margin-top: 20px;
+    font-size: 36px;
+}
+
+.hongbao {
+    width: 280px;
+    height: 360px;
+    background: red;
+    border: 6px solid gold;
+    border-radius: 20px;
+    margin: 40px auto;
+    position: relative;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+}
+
+.hongbao::before {
+    content: "福";
+    font-size: 70px;
+    color: gold;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Baby Dragon Character */
+.dragon {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.4s ease;
+}
+
+.dragon-face {
+    font-size: 70px;
+}
+
+.emotion {
+    font-size: 24px;
+    margin-top: 5px;
+}
+
+/* Cute bounce */
+.cute {
+    animation: bounce 0.6s infinite alternate;
+}
+
+@keyframes bounce {
+    from { transform: translateX(-50%) translateY(0); }
+    to { transform: translateX(-50%) translateY(-12px); }
+}
+
+/* Nodding */
+.nod {
+    animation: nodding 0.5s ease-in-out 3;
+}
+
+@keyframes nodding {
+    0% { transform: translateX(-50%) rotate(0deg); }
+    50% { transform: translateX(-50%) rotate(12deg); }
+    100% { transform: translateX(-50%) rotate(0deg); }
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+button {
+    padding: 14px 30px;
+    font-size: 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#yesBtn {
+    background: gold;
+    color: red;
+}
+
+#noBtn {
+    background: black;
+    color: white;
+}
+
+/* Fireworks */
+.firework {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(7); opacity: 0; }
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>🧧 Happy Chinese New Year! 🏮</h1>
+<p>Will you accept the Hongbao from baby dragon?</p>
+
+<div class="hongbao">
+    <div class="dragon" id="dragon">
+        <div class="dragon-face" id="dragonFace">🐲</div>
+        <div class="emotion" id="emotion">😊 Waiting...</div>
+    </div>
+</div>
+
+<div class="buttons">
+    <button id="yesBtn">🧧 YES</button>
+    <button id="noBtn">❌ NO</button>
+</div>
+
+<script>
+let yesScale = 1;
+let noScale = 1;
+
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const dragon = document.getElementById("dragon");
+const emotion = document.getElementById("emotion");
+
+yesBtn.onclick = function() {
+
+    // Expand YES button
+    yesScale += 0.3;
+    yesBtn.style.transform = "scale(" + yesScale + ")";
+
+    // Make dragon cute & happy
+    dragon.classList.remove("nod");
+    dragon.classList.add("cute");
+    emotion.innerHTML = "🥰 So Happy!! Thank You!! 💖";
+
+    createFireworks();
+};
+
+noBtn.onclick = function() {
+
+    // Shrink NO button
+    noScale -= 0.2;
+    if (noScale <= 0.2) {
+        noBtn.style.transform = "scale(0)";
+        noBtn.style.opacity = "0";
+    } else {
+        noBtn.style.transform = "scale(" + noScale + ")";
+    }
+
+    // Dragon nodding and crying
+    dragon.classList.remove("cute");
+    dragon.classList.add("nod");
+    emotion.innerHTML = "😢 It's okay... *nod nod* 💧";
+};
+
+function createFireworks() {
+    for (let i = 0; i < 20; i++) {
+        const firework = document.createElement("div");
+        firework.classList.add("firework");
+
+        firework.style.left = Math.random() * window.innerWidth + "px";
+        firework.style.top = Math.random() * window.innerHeight + "px";
+        firework.style.background = randomColor();
+
+        document.body.appendChild(firework);
+
+        setTimeout(() => firework.remove(), 1000);
+    }
+}
+
+function randomColor() {
+    const colors = ["gold", "red", "yellow", "orange", "white", "pink"];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+</script>
+</body>
+</html>
